@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>Не авторизован</title>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style_forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>Необходимо авторизоваться, чтобы просматривать эту страницу</h1>
+<a href="{{ url_for('index') }}"> На главную</a>
+<a href="{{ url_for('login') }}"> Авторизация</a>
+<a href="{{ url_for('register') }}"> Регистрация</a>
+{% endblock %}
