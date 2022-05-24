@@ -6,7 +6,16 @@
 
 {% block content %}
 
-<p><a href="{{url_for('logout')}}"> Выйти из профиля </a></p>
-<p>user info: {{ user.name }}</p>
+<a href="{{url_for('index')}}"> На главную </a>
+<a href="{{url_for('logout')}}"> Выйти из системы </a>
+{% for cat, msg in get_flashed_messages(True) %}
+<div class="flash {{cat}}">{{msg}}</div>
+{% endfor %}
+<h2>Личная информация: </h2>
+<p>{{ user.name }}</p>
+<p>{{ user.email }}</p>
+{% if user.role == 1 %} <p> Вы ученик! Можете пройти доступные тесты </p>
+{% else %} <p> Вы учитель! Можете составлять тесты для учеников </p>
+{% endif %}
 
 {% endblock %}

@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block content %}
-<!--{% for cat, msg in get_flashed_messages(True) %}-->
-<!--<div class="flash {{cat}}">{{msg}}</div>-->
-<!--{% endfor %}-->
+{% for cat, msg in get_flashed_messages(True) %}
+<div class="flash {{cat}}">{{msg}}</div>
+{% endfor %}
 <form action="/register" method="post">
 
     {{ form.hidden_tag() }}

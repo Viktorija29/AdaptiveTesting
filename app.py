@@ -24,14 +24,23 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 # создание экземпляра SQLALCHEMY, передается ссылка на app
 db.init_app(app)
 
-
 # экземпляр класса LoginManager управляет процессом аторизации
 login_manager = LoginManager(app)
 
 
+@app.errorhandler(401)
+def pageNotFount(error):
+    return render_template('page_for_401.html')
+
+
+@app.errorhandler(404)
+def pageNotFount(error):
+    return render_template('page_for_404.html')
+
+
 @login_manager.user_loader
 def load_user(user_id):
-    return UserLogin().getUserFromDB(user_id, db)
+    return UserLogin(user_id, db)
 
 
 @app.route('/logout')
@@ -44,7 +53,7 @@ def logout():
 
 @app.route('/')
 def index():
-    return 'index page'
+    return render_template('index.html')
 
 
 @app.route('/profile')
@@ -65,6 +74,7 @@ def profile():
 @app.route('/login', methods=["POST", "GET"])
 def login():
     if current_user.is_authenticated:
+        flash('Вы уже авторизованны', 'success')
         return redirect(url_for('profile'))
     form = LoginForm()
     if request.method == "POST":
@@ -72,7 +82,7 @@ def login():
         # если его нет - вернет None и дальше не идет
         user = db.session.query(Users).filter(Users.email == form.email.data).first()
         if user and check_password_hash(user.psw, form.psw.data):
-            userLogin = UserLogin().create(user)
+            userLogin = UserLogin(user.id, db)
             # авторизация в сессии
             login_user(userLogin)
             session.permanent = True
@@ -86,11 +96,11 @@ def login():
 def register():
     form = RegisterForm()
     if request.method == "POST":
-        # session.pop('_flashes', None)
+        session.pop('_flashes', None)
         if form.validate():
             exist = db.session.query(Users).filter(Users.email == form.email.data).all()
             if exist:
-                # flash("Пользователь с таким email существует", "error")
+                flash("Пользователь с таким email существует", "error")
                 return redirect(url_for('register', form=form))
             else:
                 try:
@@ -103,9 +113,8 @@ def register():
                     flash("Вы успешно зарегистрированы", "success")
                     return redirect(url_for('login'))
                 except:
-                    # flash("Произошла ошибка записи в базу данных", "error")
-                    # return redirect(url_for('register', form=form))
-                    print('err')
+                    flash("Произошла ошибка записи в базу данных", "error")
+                    return redirect(url_for('register', form=form))
         # else:
         #     # flash("Неверно заполнены поля", "error")
         #     return redirect(url_for('register', form=form))
