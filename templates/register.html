@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>Регистрация</title>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style_forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<!--{% for cat, msg in get_flashed_messages(True) %}-->
+<!--<div class="flash {{cat}}">{{msg}}</div>-->
+<!--{% endfor %}-->
+<form action="/register" method="post">
+
+    {{ form.hidden_tag() }}
+
+    {% for field in form %}
+        {% if field.name in ['email','name','psw','psw2'] %}
+            <p>{{ field.label(class='label_reg')}} {{ field() }}
+            {% if field.errors %}
+                <span> {% for er in field.errors %} {{ er }} {% endfor %} </span>
+            {% endif %}
+            </p>
+        {% endif %}
+    {% endfor %}
+
+<!--    <div class="field"> {{ form.name.label() }} {{ form.name() }}</div>-->
+
+<!--    <div class="field">{{ form.email.label() }} {{ form.email() }}-->
+<!--    {% if form.email.errors %}-->
+<!--    <span> {% for e in form.email.errors %} {{ e }} {% endfor %} </span>-->
+<!--    {% endif %}-->
+<!--    </div>-->
+
+<!--    <div class="field">{{ form.psw.label() }} {{ form.psw() }}</div>-->
+<!--    <div class="field">{{ form.psw2.label() }} {{ form.psw2() }}</div>-->
+    <p>{{ form.teacher() }} {{ form.teacher.label() }}</p>
+    <p class="reg">{{ form.submit() }}</p>
+</form>
+
+{% endblock %}
