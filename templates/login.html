@@ -1,27 +1,26 @@
 {% extends 'base.html' %}
 {% block info %}
 <title>Авторизация</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style_forms.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 {% endblock %}
 
 {% block content %}
 {% for cat, msg in get_flashed_messages(True) %}
 <div class="flash {{cat}}">{{msg}}</div>
 {% endfor %}
-<form action="/login" method="post">
-    {{ form.hidden_tag() }}
 
+<form action="/login" method="post" class="form_login">
+    {{ form.hidden_tag() }}
+    <h1>Авторизация</h1>
     {% for field in form %}
         {% if field.name in ['email','psw'] %}
-            <p>{{ field.label(class='label_log') }} {{ field() }}
-            {% if field.errors %}
+            <div class = "div_input">{{ field(placeholder=field.label.text) }}</div>
+                {% if field.errors %}
                 <span> {% for er in field.errors %} {{ er }} {% endfor %} </span>
             {% endif %}
-            </p>
         {% endif %}
     {% endfor %}
-
-    <p class="log">{{ form.submit() }}</p>
+    <div class = "div_input">{{ form.submit() }}</div>
 </form>
 
 {% endblock %}

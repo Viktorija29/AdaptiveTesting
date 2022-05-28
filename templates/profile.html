@@ -5,17 +5,19 @@
 {% endblock %}
 
 {% block content %}
-
-<a href="{{url_for('index')}}"> На главную </a>
-<a href="{{url_for('logout')}}"> Выйти из системы </a>
+<!--todo: сделать профиль-->
 {% for cat, msg in get_flashed_messages(True) %}
 <div class="flash {{cat}}">{{msg}}</div>
 {% endfor %}
 <h2>Личная информация: </h2>
-<p>{{ user.name }}</p>
-<p>{{ user.email }}</p>
-{% if user.role == 1 %} <p> Вы ученик! Можете пройти доступные тесты </p>
-{% else %} <p> Вы учитель! Можете составлять тесты для учеников </p>
+<p>Имя: {{ user.name }}</p>
+<p>Почта: {{ user.email }}</p>
+{% if user.role_id == 1 %} <p> Вы ученик! Можете пройти доступные тесты в разделе Тесты или по
+    <a href="{{url_for('topics')}}">ссылке</a>.</p>
+    <br/>
+    <h2>Статистика</h2>
+{% else %} <p> Вы учитель! Можете составлять тесты для учеников разделе Тесты -> Мои тесты или по
+    <a href="{{url_for('tests_from_topic', topic_id='my')}}">ссылке</a>.</p>
 {% endif %}
 
 {% endblock %}

@@ -2,15 +2,37 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     {% block info -%}
     <title> Title </title>
     {% endblock %}
 
 </head>
 <body>
+<div class = "wrapper">
+<header>
+<ul class="menu">
+    <li><a href="{{ url_for('index') }}"> Главная </a></li>
+    <li><a href="{{ url_for('topics') }}"> Тесты </a></li>
+{% if current_user.is_authenticated%}
+    <li><a href="{{ url_for('profile') }}"> Профиль </a></li>
+    <li><a href="{{url_for('logout')}}"> Выйти из системы </a></li>
+{% else %}
+    <li><a href="{{ url_for('login') }}"> Авторизация</a></li>
+    <li><a href="{{ url_for('register') }}"> Регистрация</a></li>
+{% endif %}
+</ul>
+</header>
+
+<div class="div_content">
 {% block content -%}
 
 {% endblock %}
+
+<footer></footer>
+    </div>
+</div>
+
+
 </body>
 </html>

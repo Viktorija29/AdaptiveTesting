@@ -4,8 +4,8 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 
 class LoginForm(FlaskForm):
-    email = EmailField("Email: ", validators=[Email("Некорректный email")])
-    psw = PasswordField("Пароль: ",
+    email = EmailField("Email", validators=[Email("Некорректный email")])
+    psw = PasswordField("Пароль",
                         validators=[DataRequired(),
                                     Length(min=4, max=100,
                                            message="Пароль должен быть от 4 до 100 символов")])
@@ -13,18 +13,27 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    name = StringField("Имя: ",
+    name = StringField("Имя",
                        validators=[DataRequired(),
                                    Length(min=4, max=100,
                                           message="Имя должно быть от 4 до 100 символов")])
-    email = EmailField("Email: ", validators=[DataRequired(), Email("Некорректный email")])
-    psw = PasswordField("Пароль: ",
+    email = EmailField("Email", validators=[DataRequired(), Email("Некорректный email")])
+    psw = PasswordField("Пароль",
                         validators=[DataRequired(),
                                     Length(min=4, max=100,
                                            message="Пароль должен быть от 4 до 100 символов")])
-    psw2 = PasswordField("Повторите пароль: ",
+    psw2 = PasswordField("Повторите пароль",
                          validators=[DataRequired(),
                                      EqualTo('psw', message="Пароли не совпадают")])
-    teacher = BooleanField("Я - учитель", default=False)
+    teacher = BooleanField("Учитель", default=False)
     submit = SubmitField("Регистрация")
 
+#
+# class TestInfoForm(FlaskForm):
+#     name = StringField("Название теста",
+#                        validators=[DataRequired(),
+#                                    Length(min=4, max=150,
+#                                           message="Имя должно быть от 4 до 150 символов")])
+#     description = TextAreaField("Описание теста (не обязательно)", validators=[Length(max=500)])
+#     num_stages = IntegerField('Число стадий', validators=[DataRequired()])
+#     submit = SubmitField("Далее")
