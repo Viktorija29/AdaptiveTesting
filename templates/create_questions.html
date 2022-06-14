@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>Создание вопросов к тесту</title>
+<style>.div_input select {margin-bottom: 15px;}</style>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+{% for lev in list_keys%}
+    <div class="div_level_{{lev}}">
+        <h2>Вопросы уровня сложности {{lev}}</h2>
+        {% for q in range(level_count[lev])%}
+        <div class="question">
+            <div class="div_input">
+                <textarea name="{{lev}}_{{q}}" maxlength="500"
+                          required></textarea></div>
+            <div class="div_input">
+                <select name="type_{{lev}}_{{q}}">
+                    {% for t in types %}
+                    <option value="{{t.id}}">{{t.name}}</option>
+                    {% endfor %}
+                </select></div></div>
+        {% endfor %}
+    </div>
+{% endfor %}
+    <div class = "div_input"><input type="submit" value="Далее" ></div></form>
+{% endblock %}

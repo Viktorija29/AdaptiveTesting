@@ -1,0 +1,25 @@
+a.a_test {text-decoration: none;}
+a.a_test:hover {color: #473B34;}
+.back {text-decoration: underline; font-size: 1.3em}
+.div_test {
+    background-color: rgba(168, 160, 150, 0.5);
+    border-radius: 20px;
+    padding: 10px 25px;
+    margin-bottom: 3%;
+    margin-right: 3%;
+    width: 40%;
+    display: inline-block;
+    vertical-align: top;}
+.div_test:hover {background-color: #A8A096;}
+.div_content {padding: 20px 150px 20px 150px;}
+.div_action {
+    padding: 15px 20px;
+    background-color: rgb(158, 152, 144);
+    border-radius: 40px;
+    font-size: 1.6em;
+    display: inline-block;
+    margin-bottom: 30px;
+    color: #473B34;}
+.div_action:hover {
+    box-shadow: 10px 10px 9px 0 #52433C;
+    outline: none;}

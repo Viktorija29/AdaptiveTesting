@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>Настройка количества ответов</title>
+{% endblock %}
+
+{% block content %}
+{%if mode == 'setting' %}
+<h1>Установите количество вариантов ответа</h1>
+{% else %}
+<h1>Введите ответы и отметьте верные</h1>
+{% endif %}
+{% if mode == 'setting' %}
+{% set path = url_for('setting_answers', test_id=test_id) %}
+{% elif mode == 'create' %}
+{% set path = url_for('create_answers', test_id=test_id) %}
+{% endif %}
+<form action={{path}} method="post">
+{% for q in all_questions %}
+<div style="border-bottom: solid 3px #736558; padding-bottom: 20px;">
+    <p>Вопрос: {{q.text}}</p>
+    <p>{{q.type_of_question.name}}, сложность - {{q.difficulty_level}}</p>
+    {% if mode == 'setting' %}
+    <div class = "div_input">
+        <input type="number" name="{{q.id}}" min="2" required value="2">
+    </div>
+    {% elif mode == 'create' %}
+    <div>
+        {% for i in range(list_q_count[q.id]) %}
+            {% if q.type_id == 1 %}
+            <div>
+                <input type="radio" name="radio_{{q.id}}"
+                       value="{{q.id}}_{{i}}" checked>
+                <input maxlength="500" name="input_{{q.id}}_{{i}}"
+                       type="text" placeholder="Текст ответа" required></div>
+            {% elif q.type_id == 2 %}
+            <div>
+                <input type="checkbox" name="checkbox_{{q.id}}_{{i}}"
+                       value="{{q.id}}_{{i}}" checked>
+                <input name="input_{{q.id}}_{{i}}" placeholder="Текст ответа"
+                       type="text" maxlength="500" required></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+<div class = "div_input" style="margin-bottom: 50px; margin-top: 30px;">
+    <input type="submit" value="Подтвердить"></div>
+</form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>Тестирование</title>
+<style>
+    input[type=submit] {
+        margin-bottom: 50px;
+        margin-top: 30px;
+        height: 50px;
+        font-size: 1.4em;}
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>{{testing.test.name}}</h1>
+<h2>{{question.text}}</h2>
+<form action={{url_for('process_testing',
+      test_id=testing.test.id)}} method="post">
+    {% if answers_for_question %}
+    {% for answer in answers_for_question %}
+    {% if question.type_id == 1 %}
+    <p><input type="radio" name="radio_answer"
+              value="{{answer.id}}">{{answer.answer_text}}</p>
+    {% elif question.type_id == 2 %}
+    <p><input type="checkbox" name="checkbox_{{answer.id}}"
+              value="{{answer.id}}" checked>{{answer.answer_text}}</p>
+    {% endif %}
+    {% endfor %}
+    <div><input type="submit" value="Ответить"></div>
+    {% else %}
+    <div><input type="submit" value="Завершить тест"></div>
+    {% endif %}
+</form>
+{% endblock %}

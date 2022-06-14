@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>Создание теста</title>
+<style>
+    .div_input {margin-bottom: 10px;}
+    input[type=submit] {
+        margin-bottom: 50px;
+        margin-top: 20px;
+        height: 50px;
+        font-size: 1.4em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<form action="{{url_for('create_test')}}" method="post">
+    <h1>Общая информация о тесте</h1>
+    {% for cat, msg in get_flashed_messages(True) %}
+    <div class="flash {{cat}}">{{msg}}</div>
+    {% endfor %}
+    <input class = "div_input" type="text" name="name" maxlength="150"
+                                    placeholder="Название теста" required>
+    <div class = "div_input"><textarea maxlength="500" placeholder="Описание"
+                                       name="description"></textarea></div>
+    <div class = "div_input">
+        <input type="number" name="num_stages"
+               placeholder="Количество стадий > 2" required min="3"></div>
+    <p>Имейте ввиду: при выборе n стадий Вам будет необходимо добавить
+        (n+1)*n/2 вопросов различных уровней сложности.
+        Количество стадий соответствует количеству уровней сложности.</p>
+    <div class = "div_input">
+        <select name="topic" style="width: 200px;">
+            <option value="-1">Без категории</option>
+        {% for t in topics %}
+            <option value="{{t.id}}">{{t.name}}</option>
+        {% endfor %}
+    </select></div>
+    <div class = "div_input">
+        <input class = "div_input" type="text" name="new_topic"
+               maxlength="100" style="width: 300px;"
+               placeholder="Если нет подходящей, создайте категорию"></div>
+    <div class = "div_input"><input type="submit" value="Далее"></div></form>
+{% endblock %}

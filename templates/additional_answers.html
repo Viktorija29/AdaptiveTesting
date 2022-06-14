@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>Добавление ответов к вопросу</title>
+{% endblock %}
+
+{% block content %}
+<h1>Введите ответы и отметьте верные</h1>
+<form action={{url_for('additional_answers', test_id=test_id,
+            question_id=question.id, num_answers=num_answers)}} method="post">
+<p>Вопрос: {{question.text}}</p>
+<p>{{question.type_of_question.name}},
+    сложность - {{question.difficulty_level}}</p>
+<div>{% for i in range(num_answers) %}
+        <div>
+        {% if question.type_id == 1 %}
+            <input type="radio" name="radio" value="{{i}}" checked>
+        {% elif question.type_id == 2 %}
+            <input type="checkbox" name="checkbox_{{i}}" value="{{i}}" checked>
+        {% endif %}
+            <input type="text" name="input_{{i}}" maxlength="500"
+                                placeholder="Текст ответа" required></div>
+    {% endfor %}</div>
+<div class = "div_input" style="margin-bottom: 50px; margin-top: 30px;">
+    <input type="submit" value="Подтвердить"></div>
+</form>
+{% endblock %}

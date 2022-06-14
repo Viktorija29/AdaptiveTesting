@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>Добавление вопроса к тесту</title>
+<style>.div_input {margin-bottom: 15px;}</style>
+{% endblock %}
+
+{% block content %}
+<h1>Новый вопрос</h1>
+<form method="post">
+    <p>Введите текст вопроса и выберите уровень сложности:</p>
+    <div class="div_input">
+        <textarea name="text" maxlength="500"
+                  required placeholder="Текст вопроса"></textarea></div>
+    <div class="div_input" >
+        <select name="difficulty_level">
+            {% for stage in range(1, test.num_stages + 1) %}
+            <option value="{{stage}}">{{stage}}</option>
+            {% endfor %}
+        </select></div>
+    <p>Настройки ответов:</p>
+    <div class="div_input">
+        <select name="type">
+            {% for t in types %}
+            <option value="{{t.id}}">{{t.name}}</option>
+            {% endfor %}
+        </select></div>
+    <div class = "div_input">
+        <input type="number" name="num_answers"
+               placeholder="Количество ответов > 1" required min="2"></div>
+    <div class = "div_input"><input type="submit" value="Далее" ></div>
+</form>
+{% endblock %}

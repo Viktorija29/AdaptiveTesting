@@ -1,0 +1,28 @@
+table {
+    width: 90%;
+    margin-top: 10px;}
+.table_teacher {margin-bottom: 20px;}
+.div_table_student {margin-bottom: 40px;}
+caption {
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: left;}
+.caption_student {font-size: 1.3em;}
+thead {font-size: 1.2em;}
+.td_center {text-align: center;}
+th, td {padding: 5px;}
+.tr_true {background-color: rgba(0, 255, 0, 0.15);}
+.tr_false {background-color: rgba(255, 0, 0, 0.15)}
+.p_res { margin-top: 10px; font-weight: bold;}
+.div_action {
+    padding: 15px 20px;
+    background-color: rgb(158, 152, 144);
+    border-radius: 40px;
+    font-size: 1.6em;
+    display: inline-block;
+    color: #473B34;}
+.div_action:hover {
+    box-shadow: 10px 10px 9px 0 #52433C;
+    outline: none;}
+h2:hover {cursor: pointer;}
+#block_results, #block_questions {display: none;}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>{{title}}</title>
+<link type="text/css" rel="stylesheet"
+      href="{{ url_for('static', filename='css/tests_from_topic.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>{{title}}</h1>
+{% if request.path == url_for('tests_from_topic', topic_id = 'my')%}
+<a href="{{url_for('create_test')}}" class="a_action">
+    <div class="div_action">Создать тест</div></a>
+{% endif %}
+
+<div>
+{% if tests%}
+    {% for t in tests%}
+    <div class="div_test">
+    <a class="a_test" href="{{url_for('test_preview', test_id=t.id)}}">
+    <div>
+        <h2>{{t.name}}</h2>
+        <p>{{t.description|truncate(100)}}</p>
+        <p>Категория: {{t.topic_of_test.name}}</p>
+        <p>Автор: {{t.author_of_test.name}}</p></div></a></div>
+    {% endfor %}
+{% else %} <p>Тесты в данной категории еще не добавлены</p> {% endif %}
+</div>
+{% endblock %}

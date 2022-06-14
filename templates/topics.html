@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>Тесты</title>
+<link type="text/css" rel="stylesheet"
+      href="{{ url_for('static', filename='css/topics.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>Выберите категорию:</h1>
+<ul>
+    {% if current_user.is_authenticated %}
+    {% if current_user.user.role_id == 2 %}
+    <li class="li_topic">
+        <a href="{{url_for('tests_from_topic', topic_id = 'my')}}">
+            <div class="div_topic my">Мои тесты</div></a></li>
+    {% endif %} {% endif %}
+    <li class="li_topic">
+        <a href="{{url_for('tests_from_topic', topic_id = 'all')}}">
+            <div class="div_topic all">Все тесты</div></a></li>
+    <li class="li_topic">
+        <a href="{{url_for('tests_from_topic', topic_id = 'no_topic')}}">
+            <div class="div_topic no">Тесты без категории</div></a></li></ul>
+<ul>
+{% for topic in topics %}
+    <li class="li_topic">
+            <a href="{{url_for('tests_from_topic', topic_id = topic.id)}}">
+                <div class="div_topic">{{topic.name}}</div></a></li>
+{% endfor %}
+</ul>
+{% endblock %}

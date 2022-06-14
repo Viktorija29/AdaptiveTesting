@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block info %}
+<title>{{test.name}}</title>
+<link type="text/css" rel="stylesheet"
+      href="{{ url_for('static', filename='css/test_preview.css') }}">
+<script type="text/javascript"
+        src="{{ url_for('static',filename='js/test_preview_teacher.js') }}">
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="about_test" style="border-bottom: dotted 7px #736558;">
+    <h1>{{test.name}}</h1>
+    <p>{{test.description}}</p>
+    <p>Категория: {{test.topic_of_test.name}}</p>
+    <p>Автор: {{test.author_of_test.name}}</p></div>
+<br/>
+
+{% if current_user.user.role_id == 1 %}
+<div style="border-bottom: dotted 7px #736558; padding-bottom: 20px;">
+    {% if best_mark %}
+    <p style="font-weight: bold">Ваша лучшая оценка: {{best_mark}}</p>
+    <p style="font-weight: bold">Ваши лучшие баллы: {{best_points}}%</p>
+    <p>Хотите пройти тест еще раз?</p>
+    {% else %}
+    <p style="font-weight: bold">Вы еще не проходили этот тест</p>
+    {% endif %}
+    <a href="{{url_for('process_testing', test_id=test.id)}}" class="a_action">
+        <div class="div_action">Начать</div></a>
+</div>
+</br>
+{% if results %}
+
+<h2>Статистика прохождения теста</h2>
+{% for r in results %}
+<div class="div_table_student">
+<table border="1">
+    <caption class="caption_student">
+        {{r.test_date.strftime('Пройден %d.%m.%Y в %H:%M:%S')}}
+    </caption>
+    <thead><tr>
+        <th width="60%">Текст вопроса</th>
+        <th width="10%">Уровень сложности</th>
+        <th>Набранные баллы</th>
+    </tr></thead>
+    <tbody>
+    {% for d in r.details %}
+    {% if d.points < 0.5 %}
+    <tr class="tr_false">
+    {% else %}
+    <tr class="tr_true">
+    {% endif %}
+        <td>{{d.question_for_detail.text}}</td>
+        <td class="td_center">{{d.question_for_detail.difficulty_level}}</td>
+        <td class="td_center">{{d.points}}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+<p class="p_res">Оценка: {{r.mark}}</p>
+<p class="p_res">Баллы: {{r.points}}%</p>
+</div>
+{% endfor %} {% endif %} {% endif %}
+
+{% if current_user.user.role_id == 2%}
+{% if not test.all_questions%}
+<p>Пока в этом тесте нет вопросов</p>
+<a href="{{url_for('create_questions', test_id = test.id)}}">Добавить</a>
+{% else %}
+<h2 id="questions" onclick="change_display(this.id)">Вопросы &#9660;</h2>
+<div id="block_questions">
+    <table class="table_teacher" border="1">
+        <thead> <tr>
+                <th width="55%">Текст вопроса</th>
+                <th>Тип вопроса</th>
+                <th width="10%">Уровень сложности</th></tr></thead>
+        <tbody>
+        {% for q in all_questions %}
+            <tr>
+                <td>{{q.text}}</td>
+                <td>{{q.type_of_question.name}}</td>
+                <td class="td_center">{{q.difficulty_level}}</td></tr>
+        {% endfor %}
+        </tbody></table>
+    <a href="{{url_for('additional_question', test_id=test.id)}}"
+       class="a_action"> <div class="div_action">Добавить вопрос</div></a>
+</div>
+
+<h2 id="results" onclick="change_display(this.id)">
+    Результаты учеников &#9660;</h2>
+<div id="block_results">
+    <table class="table_teacher" border="1">
+        <thead><tr>
+                <th width="45%">Имя ученика</th>
+                <th width="25%">Почта ученика</th>
+                <th width="15%">Лучшая оценка</th>
+                <th width="15%">Лучшие баллы</th></tr></thead>
+        <tbody>
+        {% for s_r in student_results %}
+            <tr>
+                <td>{{s_r[0]}}</td>
+                <td>{{s_r[1]}}</td>
+                <td class="td_center">{{s_r[2]}}</td>
+                <td class="td_center">{{s_r[3]}}%</td></tr>
+        {% endfor %}
+        </tbody></table>
+</div>
+{% endif %} {% endif %} {% endblock %}

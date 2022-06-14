@@ -1,0 +1,16 @@
+.li_topic {
+    list-style-type: none;
+    font-size: 1.6em;
+    display: inline-block;}
+.div_topic {
+    margin: 20px 30px 20px 0;
+    padding: 30px;
+    background-color: #73819C;
+    border-radius: 40px;}
+.all, .no, .my {background-color: rgb(158, 152, 144);}
+a {color: #473B34; text-decoration:none; font-weight: bold;}
+a:hover {color: #473B34;}
+.div_topic:hover {
+    box-shadow: 10px 10px 9px 0 #52433C;
+    outline: none;}
+.div_content {padding-right: 100px;}
