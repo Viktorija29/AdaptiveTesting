@@ -12,7 +12,6 @@ class Users(db.Model):
     name = db.Column(db.String(100), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'),
                         default=1, nullable=False)
-
     created_tests = db.relationship('Tests', backref='author_of_test',
                                     cascade='all,delete-orphan')
     user_results = db.relationship('Results', backref='whose_result',
@@ -33,10 +32,9 @@ class Tests(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     description = db.Column(db.String(500), nullable=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'), nullable=True)
+    author_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
+    topic_id = db.Column(db.Integer,db.ForeignKey('topics.id'),nullable=True)
     num_stages = db.Column(db.Integer, nullable=True)
-
     all_results_for_this_test = db.relationship('Results',
                                                 backref='which_test_result',
                                                 cascade='all,delete-orphan')
@@ -48,7 +46,6 @@ class Tests(db.Model):
 class Topics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-
     tests_from_topic = db.relationship('Tests', backref='topic_of_test')
 
 
@@ -56,32 +53,43 @@ class Topics(db.Model):
 # Можно проходить тесты несколько раз и хранить результат для всех прохождений
 class Results(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    test_id = db.Column(db.Integer, db.ForeignKey('tests.id'), nullable=False)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
+    test_id = db.Column(db.Integer,db.ForeignKey('tests.id'),nullable=False)
     mark = db.Column(db.Integer, nullable=False)
     points = db.Column(db.Float, nullable=False)
     test_date = db.Column(db.DateTime, default=datetime.now)
+    details = db.relationship('DetailResults', backref='result')
+
+
+# Подробные результаты с ответами
+class DetailResults(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    results_id = db.Column(db.Integer, db.ForeignKey('results.id'),
+                           nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'),
+                            nullable=False)
+    points = db.Column(db.Float, nullable=False)
 
 
 # Вопросы
 class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(500), nullable=False)
-    test_id = db.Column(db.Integer, db.ForeignKey('tests.id'), nullable=False)
+    test_id = db.Column(db.Integer,db.ForeignKey('tests.id'),nullable=False)
     type_id = db.Column(db.Integer, db.ForeignKey('type_questions.id'),
                         nullable=False)
     difficulty_level = db.Column(db.Integer, nullable=False)
-
     answers_for_question = db.relationship('Answers',
                                            backref='question_of_answer',
                                            cascade='all,delete-orphan')
+    detail_for_question = db.relationship('DetailResults',
+                                          backref='question_for_detail')
 
 
-# Тип вопроса (с 1 вариантом ответа, с несколькими, текстовый)
+# Тип вопроса (с 1 вариантом ответа, с несколькими)
 class TypeQuestions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-
     questions_with_type = db.relationship('Questions',
                                           backref='type_of_question',
                                           cascade='all,delete-orphan')

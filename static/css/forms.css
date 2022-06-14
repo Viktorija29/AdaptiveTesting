@@ -1,6 +1,4 @@
-.div_content{
-    padding: 20px 0;
-}
+.div_content {padding: 20px 0;}
 form {
     width: 350px;
     position: absolute;
@@ -8,58 +6,47 @@ form {
     transform: translate(-50%, -50%);
     background: rgba(115, 101, 88, 0.85);
     text-align:center;
-    border-radius: 10px;
-}
-.form_login{top: 50%; height: 330px;}
-.form_register{top: 57%; height: 450px;}
-.form_login .div_input{
+    border-radius: 10px;}
+.form_login {top: 50%; height: 330px;}
+.form_register {top: 57%; height: 450px;}
+.form_login .div_input {
     margin: 27px 40px;
-    height: 15%;
-}
-.form_register .div_input{
-    margin: 18px 40px 7px; 40px;
-    height: 10%;
-}
-.form_register .div_input_checkbox{
+    height: 15%;}
+.form_register .div_input {
+    margin: 18px 40px 7px 40px;
+    height: 10%;}
+.form_register .div_input_checkbox {
     margin: 0;
-    height: 30px;
-}
-input{
+    height: 30px;}
+input {
     width: 100%;
     height: 100%;
     border-radius: 10px;
     border: none;
     text-indent: 20px;
-    font-size: 1.4em;
-}
+    font-size: 1.4em;}
 input:not(.div_input_checkbox input):focus, input[type='submit']:hover {
   box-shadow: 10px 10px 7px 0 #473B34;
-  outline: none;
-}
-h1{
+  outline: none;}
+h1 {
     text-align:center;
     margin-top: 15px;
-    margin-bottom: 10px;
-}
-.div_input_checkbox{
+    margin-bottom: 10px;}
+.div_input_checkbox {
     display: flex;
     font-size: 1.3em;
-    justify-content: center;
-}
-.div_input_checkbox label{
+    justify-content: center;}
+.div_input_checkbox label {
     flex-basis: 100px;
-    color: #E6E2DC;
-    }
-.div_input_checkbox input{flex-basis: 50px;}
-.flash{
+    color: #E6E2DC;    }
+.div_input_checkbox input {flex-basis: 50px;}
+.flash {
     display: inline-block;
     border: 5px solid #52433C;
     margin: 20px;
     padding: 10px;
     border-radius:20px;
-    font-size: 20px;
-}
-span{
+    font-size: 20px;}
+span {
     margin-top: -10px;
-    color: #D9B250;
-    }
+    color: #D9B250;}

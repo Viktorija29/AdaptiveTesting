@@ -1,27 +1,28 @@
 {% extends 'base.html' %}
 {% block info %}
 <title>Регистрация</title>
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+<link type="text/css" rel="stylesheet"
+      href="{{ url_for('static', filename='css/forms.css') }}">
 {% endblock %}
 
 {% block content %}
 {% for cat, msg in get_flashed_messages(True) %}
 <div class="flash {{cat}}">{{msg}}</div>
 {% endfor %}
-
 <form action="{{url_for('register')}}" method="post" class="form_register">
     {{ form.hidden_tag() }}
     <h1>Регистрация</h1>
     {% for field in form %}
         {% if field.name in ['email','name','psw','psw2'] %}
-            <div class = "div_input">{{ field(placeholder=field.label.text) }}</div>
+            <div class = "div_input">
+                {{ field(placeholder=field.label.text) }}</div>
             {% if field.errors %}
-                <span> {% for er in field.errors %} {{ er }} {% endfor %} </span>
+                <span>{% for r in field.errors %} {{e}} {% endfor %}</span>
             {% endif %}
         {% endif %}
     {% endfor %}
-    <div class = "div_input div_input_checkbox">{{form.teacher()}} {{form.teacher.label()}}</div>
+    <div class = "div_input div_input_checkbox">
+        {{form.teacher()}} {{form.teacher.label()}}</div>
     <div class = "div_input">{{ form.submit() }}</div>
 </form>
-
 {% endblock %}

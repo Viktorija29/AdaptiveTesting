@@ -1,21 +1,36 @@
 {% extends 'base.html' %}
 {% block info %}
 <title>Профиль</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link type="text/css" rel="stylesheet"
+      href="{{ url_for('static', filename='css/profile.css') }}">
 {% endblock %}
 
 {% block content %}
-<!--todo: сделать профиль-->
-{% for cat, msg in get_flashed_messages(True) %}
-<div class="flash {{cat}}">{{msg}}</div>
-{% endfor %}
 <h2>Личная информация: </h2>
 <p>Имя: {{ user.name }}</p>
 <p>Почта: {{ user.email }}</p>
-{% if user.role_id == 1 %} <p> Вы ученик! Можете пройти доступные тесты в разделе Тесты или по
-    <a href="{{url_for('topics')}}">ссылке</a>.</p>
-{% else %} <p> Вы учитель! Можете составлять тесты для учеников разделе Тесты -> Мои тесты или по
-    <a href="{{url_for('tests_from_topic', topic_id='my')}}">ссылке</a>.</p>
+{% if user.role_id == 1 %}
+<p> Вы ученик! Можете пройти доступные тесты в разделе
+    <a href="{{url_for('topics')}}">Тесты</a>
+    или выбрать нужный тест ниже.<br></p>
+<h2>Ваши лучшие результаты по всем тестам:</h2>
+{% for r in list_results %}
+<div class="div_res_test">
+    <a class="a_res" href="{{url_for('test_preview', test_id=r[0].id)}}">
+    <div>
+        <h2>{{r[0].name}}</h2>
+        {% if r[1] %}
+        <p>Лучшая оценка: {{r[1]}}</p>
+        <p>Лучшие баллы: {{r[2]}}%</p>
+        {% else %}
+        <p>Тест еще не пройден</p>
+        {% endif %}
+    </div>
+    </a>
+</div>
+{% endfor %}
+{% else %}
+<p> Вы учитель! Можете составлять тесты для учеников в разделе "Тесты ->
+    Мои тесты" или по <a href="{{url_for('create_test')}}">ссылке</a><br></p>
 {% endif %}
-
 {% endblock %}
